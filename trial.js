@@ -32,23 +32,23 @@ let trial11 = { // 给数字 猜位置 有界
         res1();
         $(window).resize(function () { res1(); });
         $(document).on("click", mouse1);
-        // PC
-        $("#move").on("mousedown", mouse1);
-        $(document).on("mouseup", mouse1);
-        $(document).on("mousemove", mouse1);
-        // Mobile
-        $(document).on("touchstart", touch1);
-        $(document).on("touchend", touch1);
-        $(document).on("touchmove", touch1);
+        // // PC
+        // $("#move").on("mousedown", mouse1);
+        // $(document).on("mouseup", mouse1);
+        // $(document).on("mousemove", mouse1);
+        // // Mobile
+        // $(document).on("touchstart", touch1);
+        // $(document).on("touchend", touch1);
+        // $(document).on("touchmove", touch1);
 
         $("#jspsych-survey-html-form-next").on("click", function (e) {
-            $("#move").unbind("mousedown", mouse1);
-            $(document).unbind("mouseup", mouse1);
-            $(document).unbind("mousemove", mouse1);
+            // $("#move").unbind("mousedown", mouse1);
+            // $(document).unbind("mouseup", mouse1);
+            // $(document).unbind("mousemove", mouse1);
             $(document).unbind("click", mouse1);
-            $(document).unbind("touchstart", touch1);
-            $(document).unbind("touchend", touch1);
-            $(document).unbind("touchmove", touch1);
+            // $(document).unbind("touchstart", touch1);
+            // $(document).unbind("touchend", touch1);
+            // $(document).unbind("touchmove", touch1);
         });
     },
     on_finish: function (data) {
@@ -101,23 +101,23 @@ let trial12 = { // 给数字 猜位置 无界
         res2();
         $(window).resize(function () { res2(); });
         $(document).on("click", mouse2);
-        // PC
-        $("#move").on("mousedown", mouse2);
-        $(document).on("mouseup", mouse2);
-        $(document).on("mousemove", mouse2);
-        // Mobile
-        $(document).on("touchstart", touch2);
-        $(document).on("touchend", touch2);
-        $(document).on("touchmove", touch2);
+        // // PC
+        // $("#move").on("mousedown", mouse2);
+        // $(document).on("mouseup", mouse2);
+        // $(document).on("mousemove", mouse2);
+        // // Mobile
+        // $(document).on("touchstart", touch2);
+        // $(document).on("touchend", touch2);
+        // $(document).on("touchmove", touch2);
 
         $("#jspsych-survey-html-form-next").on("click", function (e) {
-            $("#move").unbind("mousedown", mouse2);
-            $(document).unbind("mouseup", mouse2);
-            $(document).unbind("mousemove", mouse2);
+            // $("#move").unbind("mousedown", mouse2);
+            // $(document).unbind("mouseup", mouse2);
+            // $(document).unbind("mousemove", mouse2);
             $(document).unbind("click", mouse2);
-            $(document).unbind("touchstart", touch2);
-            $(document).unbind("touchend", touch2);
-            $(document).unbind("touchmove", touch2);
+            // $(document).unbind("touchstart", touch2);
+            // $(document).unbind("touchend", touch2);
+            // $(document).unbind("touchmove", touch2);
         });
     },
     on_finish: function (data) {
@@ -147,6 +147,11 @@ let trial21 = { // 给位置 猜数字 有界
         // backgroundChoose 选择条状背景色
         return `
         <div class="tit">
+            <style>
+                input {
+                    font-size: 40px;
+                }
+            </style>
             <input type="number" name="guess" id="GuessNum" required \>
         </div>
         <div class="silder">
@@ -206,6 +211,11 @@ let trial22 = { // 给位置 猜数字 无界
         // backgroundChoose 选择条状背景色
         return `
         <div class="tit">
+        <style>
+        input {
+            font-size: 40px;
+        }
+    </style>
             <input type="number" name="guess" id="GuessNum" required \>
         </div>
         <div class="silder">
@@ -264,42 +274,134 @@ let instructions = {
                 isFeedback = jsPsych.timelineVariable("feedback", true),
                 size = jsPsych.timelineVariable("size", true);
 
-            let t1 = `这是一个数字判断任务，需要判断的是0-${size}之间的数字。实验中，首先你会看到一个注视点“+”，`,
-                t2 = isType == "p" ? "随后会在左上角出现一个需要判断的数字，" : "随后会在左上角出现一个空白框，",
-                t3 = (function() { 
-                    if(isBoun) {
+            let tt = (function() { 
+                if(isBoun) {
+                    if(isFeedback) { 
                         switch(isType) { 
                             case "n":
-                                return `数字下面有一条线段，线段的起点为0，终点为${size}。请您判断这个数字在数字线上的位置，`
+                                // 有界 有反馈 n
+                                return `这是一个数字判断任务，需要判断的是0-${size}之间的数字。
+                                实验中，首先你会看到一个注视点“+”，随后会在左上角出现一个需要判断的数字，数字下面有一条线段，
+                                线段的起点为0，终点为${size}。
+                                请您判断这个数字在数字线上的位置，并用鼠标在数字线上点击标出该数字的位置，
+                                我们会根据你的反应给予反馈，
+                                鼠标点击后会进入下一个需要判断的数字。
+                                数字呈现的时间很短，请你集中注意，又快又准的作出判断。`
                                 break;
                             case "p":
-                                return `空白框下面有一条带有蓝色标记的线段，线段的起点为0，终点为${size}。请你判断蓝色标记所对应的数字，`
+                                // 有界 有反馈 p
+                                return `是一个数字判断任务，需要判断的是0-${size}之间的数字。
+                                实验中，首先你会看到一个注视点“+”，
+                                随后会在左上角出现一个空白框，空白框下面有一条带有蓝色标记的线段，线段的起点为0，终点为${size}。
+                                请你判断蓝色标记所对应的数字，并将数字填写在左上角的空白框中，
+                                我们会根据你的反应给予反馈，
+                                鼠标点击后会进入下一个需要判断的数字。
+                                数字呈现的时间很短，请你集中注意，又快又准的作出判断。`
                                 break;
                         }
-                    } else {
+                    } else { 
                         switch(isType) { 
                             case "n":
-                                return "数字下面有一条起点为0的射线（注意射线只有起点没有终点），请你根据射线左端以1为单元的线段长度判断这个数字在数字线上的位置，"
+                                // 有界 无反馈 n
+                                return `这是一个数字判断任务，需要判断的是0-${size}之间的数字。
+                                实验中，首先你会看到一个注视点“+”，随后会在左上角出现一个需要判断的数字，数字下面有一条线段，
+                                线段的起点为0，终点为${size}。
+                                请你判断这个数字在数字线上的位置，并用鼠标在数字线上标出该数字的位置，
+                                随后会进入下一个需要判断的数字。
+                                数字呈现的时间很短，请你集中注意，又快又准的作出判断。`
                                 break;
                             case "p":
-                                return "空白框下面有一条起点为0且带有蓝色标记的射线（注意射线只有起点没有终点）。请你判断蓝色标记所对应的数字，"
+                                // 有界 无反馈 p
+                                return `这是一个数字判断任务，需要判断的是0-${size}之间的数字。
+                                实验中，首先你会看到一个注视点“+”，随后会在左上角出现一个空白框，空白框下面有一条带有蓝色标记的线段，
+                                线段的起点为0，终点为${size}。
+                                请你判断蓝色标记所对应的数字，并将数字填写在左上角的空白框中，随后会进入下一个需要判断的数字。
+                                数字呈现的时间很短，请你集中注意，又快又准的作出判断。`
                                 break;
                         }
                     }
-                })(),
-                t4 = isType == "p" ? "并用鼠标在数字线上标出该数字的位置，" : "并将数字填写在左上角的空白框中，",
-                t5 = isFeedback ? "我们会根据你的反应给予反馈，" : "",
-                t6 = "随后会进入下一个需要判断的数字。数字呈现的时间很短，请你集中注意，又快又准的作出判断。";
+                } else {
+                    if(isFeedback) { 
+                        switch(isType) { 
+                            case "n":
+                                // 无界 有反馈 n
+                                return `这是一个数字判断任务，需要判断的是0-${maxSection}之间的数字。
+                                实验中，首先你会看到一个注视点“+”，随后会在左上角出现一个需要判断的数字，
+                                数字下面有一条起点为0的射线（注意射线只有起点没有终点），
+                                请你根据射线左端以${size}为单元的线段长度判断这个数字在数字线上的位置，
+                                并用鼠标在数字线上标出该数字的位置，我们会根据你的反应给予反馈，鼠标点击后会进入下一个需要判断的数字。
+                                数字呈现的时间很短，请你集中注意，又快又准的作出判断。`
+                                break;
+                            case "p":
+                                // 无界 有反馈 p
+                                return `这是一个数字判断任务，需要判断的是0-${maxSection}之间的数字。
+                                实验中，首先你会看到一个注视点“+”，随后会在左上角出现一个空白框，
+                                空白框下面有一条起点为0且带有蓝色标记的射线（注意射线只有起点没有终点）。
+                                请你判断蓝色标记所对应的数字，并将数字填写在左上角的空白框中，我们会根据你的反应给予反馈，
+                                鼠标点击后会进入下一个需要判断的数字。
+                                数字呈现的时间很短，请你集中注意，又快又准的作出判断。`
+                                break;
+                        }
+                    } else { 
+                        switch(isType) { 
+                            case "n":
+                                // 无界 无反馈 n
+                                return `这是一个数字判断任务，需要判断的是0-${maxSection}之间的数字。
+                                实验中，首先你会看到一个注视点“+”，随后会在左上角出现一个需要判断的数字，
+                                数字下面有一条起点为0的射线（注意射线只有起点没有终点），
+                                请你根据射线左端以${size}为单元的线段长度判断这个数字在数字线上的位置，
+                                并用鼠标在数字线上标出该数字的位置，随后会进入下一个需要判断的数字。
+                                数字呈现的时间很短，请你集中注意，又快又准的作出判断。`
+                                break;
+                            case "p":
+                                // 无界 无反馈 p
+                                return `这是一个数字判断任务，需要判断的是0-${maxSection}之间的数字。
+                                实验中，首先你会看到一个注视点“+”，随后会在左上角出现一个空白框，
+                                空白框下面有一条起点为0且带有蓝色标记的射线（注意射线只有起点没有终点）。
+                                请你判断蓝色标记所对应的数字，并将数字填写在左上角的空白框中，
+                                随后会进入下一个需要判断的数字。
+                                数字呈现的时间很短，请你集中注意，又快又准的作出判断。`
+                                break;
+                        }
+                    }
+                }
+            })();
+            // let t1 = `这是一个数字判断任务，需要判断的是0-${size}之间的数字。实验中，首先你会看到一个注视点“+”，`,
+            //     t2 = isType == "p" ? "随后会在左上角出现一个需要判断的数字，" : "随后会在左上角出现一个空白框，",
+            //     t3 = (function() { 
+            //         if(isBoun) {
+            //             switch(isType) { 
+            //                 case "n":
+            //                     return `数字下面有一条线段，线段的起点为0，终点为${size}。请您判断这个数字在数字线上的位置，`
+            //                     break;
+            //                 case "p":
+            //                     return `空白框下面有一条带有蓝色标记的线段，线段的起点为0，终点为${size}。请你判断蓝色标记所对应的数字，`
+            //                     break;
+            //             }
+            //         } else {
+            //             switch(isType) { 
+            //                 case "n":
+            //                     return "数字下面有一条起点为0的射线（注意射线只有起点没有终点），请你根据射线左端以1为单元的线段长度判断这个数字在数字线上的位置，"
+            //                     break;
+            //                 case "p":
+            //                     return "空白框下面有一条起点为0且带有蓝色标记的射线（注意射线只有起点没有终点）。请你判断蓝色标记所对应的数字，"
+            //                     break;
+            //             }
+            //         }
+            //     })(),
+            //     t4 = isType == "p" ? "并用鼠标在数字线上标出该数字的位置，" : "并将数字填写在左上角的空白框中，",
+            //     t5 = isFeedback ? "我们会根据你的反应给予反馈，" : "",
+            //     t6 = "随后会进入下一个需要判断的数字。数字呈现的时间很短，请你集中注意，又快又准的作出判断。";
 
             return `
-            <p style="text-align: center;"><strong style="text-align: center;">欢迎你来参加我们的实验！</strong></p>
+            <p style="text-align: center; font-size: 30px;"><strong style="text-align: center;">欢迎你来参加我们的实验！</strong></p>
             <style>p {
                 text-align: left;
                 text-indent: 2em;
             }</style>
             <p>请你先坐好。</p>
             <p>
-                ${t1 + t2 + t3 + t4 + t5 + t6}
+                ${tt}
             </p>
             <p>这一部分是${parseInt(sessionStorage.getItem("isPrac")) ? "练习实验" : "正式实验"}</p>`
         },
@@ -319,11 +421,11 @@ let instructions = {
 
 let feedback = {
     timeline: [{
-        type: "html-keyboard-response",
+        type: "html-button-response",
         stimulus: function () {
             return `您的估计准确率为<span style="color: red;">${jsPsych.data.get().filter({save: true}).last(1).values()[0].acc * 100}%`;
         },
-        choices: jsPsych.ALL_KEYS
+        choices: ["继续"]
     }],
     conditional_function: function() { 
         if(jsPsych.timelineVariable("feedback", true)) { 
