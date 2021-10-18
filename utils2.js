@@ -21,10 +21,10 @@ function res2() {
     background.css({
         left: $("#start").position().left,
         top: $("#start").position().top - background.height() / 2 + $("#start").height() / 2,
-        width: document.body.offsetWidth - 140, // 后面可以视情况修改
+        width: $("#end").position().left - $("#start").position().left, // 后面可以视情况修改
         height: "3px",
         position: "absolute",
-        background: "linear-gradient(to right, #ffffff, #ffffff 80%, grey 100%)"
+        background: "white"
     });
 
     move.css({
@@ -35,7 +35,10 @@ function res2() {
     backgroundChoose.css({
         left: $("#background").position().left,
         top: $("#background").position().top,
-        width: $("#move").position().left - $("#start").position().left
+        width: $("#move").position().left - $("#start").position().left,
+        backgroundImage: "linear-gradient(to right, white 0%, white 50%, transparent 50%)",
+        backgroundSize: "10px 1px",
+        backgroundRepeat: "x-repeat"
     });
 
     startpoint.css({
