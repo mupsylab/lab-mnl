@@ -54,7 +54,7 @@ function trialCss() {
     
     .silder #move {
         background: rgb(0, 0, 255);
-        width: 8px;
+        width: 3px;
         height: 50px;
         position: absolute;
     }
