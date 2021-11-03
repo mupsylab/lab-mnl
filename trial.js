@@ -363,32 +363,6 @@ let instructions = {
                     }
                 }
             })();
-            // let t1 = `这是一个数字判断任务，需要判断的是0-${size}之间的数字。实验中，首先你会看到一个注视点“+”，`,
-            //     t2 = isType == "p" ? "随后会在左上角出现一个需要判断的数字，" : "随后会在左上角出现一个空白框，",
-            //     t3 = (function() { 
-            //         if(isBoun) {
-            //             switch(isType) { 
-            //                 case "n":
-            //                     return `数字下面有一条线段，线段的起点为0，终点为${size}。请您判断这个数字在数字线上的位置，`
-            //                     break;
-            //                 case "p":
-            //                     return `空白框下面有一条带有蓝色标记的线段，线段的起点为0，终点为${size}。请你判断蓝色标记所对应的数字，`
-            //                     break;
-            //             }
-            //         } else {
-            //             switch(isType) { 
-            //                 case "n":
-            //                     return "数字下面有一条起点为0的射线（注意射线只有起点没有终点），请你根据射线左端以1为单元的线段长度判断这个数字在数字线上的位置，"
-            //                     break;
-            //                 case "p":
-            //                     return "空白框下面有一条起点为0且带有蓝色标记的射线（注意射线只有起点没有终点）。请你判断蓝色标记所对应的数字，"
-            //                     break;
-            //             }
-            //         }
-            //     })(),
-            //     t4 = isType == "p" ? "并用鼠标在数字线上标出该数字的位置，" : "并将数字填写在左上角的空白框中，",
-            //     t5 = isFeedback ? "我们会根据你的反应给予反馈，" : "",
-            //     t6 = "随后会进入下一个需要判断的数字。数字呈现的时间很短，请你集中注意，又快又准的作出判断。";
 
             return `
             <p style="text-align: center; font-size: 30px;"><strong style="text-align: center;">欢迎你来参加我们的实验！</strong></p>
@@ -400,7 +374,8 @@ let instructions = {
             <p>
                 ${tt}
             </p>
-            <p>这一部分是${parseInt(sessionStorage.getItem("isPrac")) ? "练习实验" : "正式实验"}</p>`
+            <p>这一部分是${parseInt(sessionStorage.getItem("isPrac")) ? "练习实验" : "正式实验"}</p>
+            ${parseInt(sessionStorage.getItem("pracError")) ? "<p style='color: lightcyan;'>正确率太低，请提高注意力</p>" : ""}`
         },
         choices: ["继续"],
         on_finish: function() { 

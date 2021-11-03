@@ -23,6 +23,8 @@ let info = {};
 let timeline = [];
 let subjectID = "Mu02";
 
+let pracNum = 2, pracAcc = 0.8;
+
 let maxSection = parseInt(jsPsych.data.getURLVariable("length")) ? parseInt(jsPsych.data.getURLVariable("length")) : 100; // 这是显示出来的最大值，指的是将屏幕宽度切分为100份
 
 // 禁止手机页面拖动
@@ -46,26 +48,20 @@ sti.push(
         Object.assign({}, conf, { type: [conf["type"].slice(1, 2)]}
     ))
 );
-// timeline.push({
-//     // 进入全屏
-//     type: 'fullscreen',
-//     fullscreen_mode: true,
-//     message: "<p style='font: bold 42px 微软雅黑; color: #B22222'>\
-//                    欢迎参与我们的实验</p>\
-//                    <p style='font: 30px 微软雅黑; color: black'><br/>\
-//                    <单击下方 我同意 进入实验程序><br/><b>实验过程中请勿退出全屏</b>\
-//                    <br/><br/></p>\
-//                    <p style='font: 24px 华文中宋; color: grey'>\
-//                    Mupsy在线实验室<br/>2021年</p>",
-//     button_label: "我同意",
-// }, {
-//     type: "instructions",
-//     pages: ["指导语"],
-//     show_clickable_nav: true,
-//     allow_backward: true,
-//     button_label_previous: "返回",
-//     button_label_next: "继续"
-// }, info_get(subjectID));
+
+timeline.push({
+    // 进入全屏
+    type: 'fullscreen',
+    fullscreen_mode: true,
+    message: "<p style='font: bold 42px 微软雅黑; color: #B22222'>\
+                   欢迎参与我们的实验</p>\
+                   <p style='font: 30px 微软雅黑; color: black'><br/>\
+                   <单击下方 我同意 进入实验程序><br/><b>实验过程中请勿退出全屏</b>\
+                   <br/><br/></p>\
+                   <p style='font: 24px 华文中宋; color: grey'>\
+                   Mupsy在线实验室<br/>2021年</p>",
+    button_label: "我同意",
+}, info_get(subjectID));
 
 load.js([
     "trial.js",
@@ -82,13 +78,27 @@ sti.forEach(v => {
             sessionStorage.setItem("isPrac", "1");
         }
     }, {
-        timeline: [instructions, tot],
-        timeline_variables: v,
-        sample: {
-            type: "without-replacement",
-            size: 2
-        },
-        randomize_order: true
+        timeline: [{
+            timeline: [instructions, tot],
+            timeline_variables: v,
+            sample: {
+                type: "without-replacement",
+                size: pracNum
+            },
+            randomize_order: true
+        }],
+        loop_function: function() { 
+            let a = jsPsych.data.get().filter({save: true}).last(pracNum).select("acc").mean();
+            if(a < pracAcc) {
+                sessionStorage.setItem("showIns", "1");
+                sessionStorage.setItem("pracError", "1");
+                return true;
+            } else { 
+                sessionStorage.setItem("showIns", "0");
+                sessionStorage.setItem("pracError", "0");
+                return false;
+            }
+        }
     });
     timeline.push({
         type: "call-function",
