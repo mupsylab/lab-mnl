@@ -21,7 +21,7 @@ document.title = "mental number line";
 
 let info = {};
 let timeline = [];
-let subjectID = "Mu02";
+let subjectID = "Mu02", version = "v2";
 
 let pracNum = 2, pracAcc = 0.8;
 
@@ -123,7 +123,8 @@ mupsyStart({
     on_finish: function () {
         mupsyEnd({
             save: true,
-            data: jsPsych.data.get().filter({save: true}).addToAll(info)
+            data: jsPsych.data.get().filter({save: true}).addToAll(info),
+            id: `${version}_${info["subj_idx"]}_${info["series"]}_${jsPsych.data.getURLVariable("boundary")}_${jsPsych.data.getURLVariable("feedback")}_${jsPsych.data.getURLVariable("type")}_${jsPsych.data.getURLVariable("size")}`
         });
     }
 });
