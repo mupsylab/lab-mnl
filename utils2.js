@@ -68,6 +68,12 @@ function res2() {
         left: $("#start").position().left,
         top: $("#endpoint").position().top + 100
     });
+
+    $("#jspsych-html-button-response-btngroup").css({
+        position: "absolute",
+        left: $("#start").position().left,
+        top: $("#endpoint").position().top + 100
+    });
 }
 
 

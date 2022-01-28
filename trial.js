@@ -1,3 +1,21 @@
+function showNumPic(number) {
+    if(typeof(number) != "string") {
+        number = number.toString();
+    }
+
+    let doc = document.createElement("div");
+    doc.className = "number";
+    let i;
+    for (i = 0; i < number.length; i++) {
+        let tmpImg = document.createElement("div");
+        tmpImg.className = "imgNum";
+        tmpImg.style = `background-image: url('./img/numbers/${number[i]}.png');`;
+        // console.log(tmpImg);
+        doc.appendChild(tmpImg);
+    }
+    return doc.outerHTML;
+}
+
 let trial11 = { // 给数字 猜位置 有界
     type: "survey-html-form",
     preamble: function() {
@@ -7,7 +25,7 @@ let trial11 = { // 给数字 猜位置 有界
         // background 条状背景色
         // backgroundChoose 选择条状背景色
         return `
-        <div class="tit">${jsPsych.timelineVariable("numSet", true)}</div>
+        <div class="tit">${showNumPic(jsPsych.timelineVariable("numSet", true))}</div>
         <div class="silder">
             <div id="background"></div>
             <div id="backgroundChoose"></div>
@@ -22,8 +40,8 @@ let trial11 = { // 给数字 猜位置 有界
     },
     button_label: ["继续"],
     on_load: function () {
-        $("#startpoint").html("0");
-        $("#endpoint").html(jsPsych.timelineVariable("size", true));
+        $("#startpoint").html(showNumPic(0));
+        $("#endpoint").html(showNumPic(jsPsych.timelineVariable("size", true)));
         // $("#move").attr("distance", "0")
         $("#jspsych-survey-html-form-next").css({
             visibility: "hidden"
@@ -77,7 +95,7 @@ let trial12 = { // 给数字 猜位置 无界
         // background 条状背景色
         // backgroundChoose 选择条状背景色
         return `
-        <div class="tit">${jsPsych.timelineVariable("numSet", true)}</div>
+        <div class="tit">${showNumPic(jsPsych.timelineVariable("numSet", true))}</div>
         <div class="silder">
             <div id="background"></div>
             <div id="backgroundChoose"></div>
@@ -92,8 +110,8 @@ let trial12 = { // 给数字 猜位置 无界
     },
     button_label: ["继续"],
     on_load: function () {
-        $("#startpoint").html("0");
-        $("#endpoint").html(jsPsych.timelineVariable("size", true));
+        $("#startpoint").html(showNumPic(0));
+        $("#endpoint").html(showNumPic(jsPsych.timelineVariable("size", true)));
         $("#jspsych-survey-html-form-next").css({
             visibility: "hidden"
         });
@@ -168,8 +186,8 @@ let trial21 = { // 给位置 猜数字 有界
     },
     button_label: ["继续"],
     on_load: function () {
-        $("#startpoint").html("0");
-        $("#endpoint").html(jsPsych.timelineVariable("size", true));
+        $("#startpoint").html(showNumPic(0));
+        $("#endpoint").html(showNumPic(jsPsych.timelineVariable("size", true)));
         // $("#move").attr("distance", "0")
         $("#move").attr(
             "distance",
@@ -232,8 +250,8 @@ let trial22 = { // 给位置 猜数字 无界
     },
     button_label: ["继续"],
     on_load: function () {
-        $("#startpoint").html("0");
-        $("#endpoint").html(jsPsych.timelineVariable("size", true));
+        $("#startpoint").html(showNumPic(0));
+        $("#endpoint").html(showNumPic(jsPsych.timelineVariable("size", true)));
         $("#jspsych-survey-html-form-next").css({
             visibility: "hidden"
         });
@@ -408,6 +426,93 @@ let feedback = {
     }
 }
 
+let feedback_all = {
+    timeline: [{
+        timeline: [{
+            type: "html-button-response",
+            stimulus: function() { 
+                return `
+                <style>${trialCss()}</style>
+                <div class="tit">${showNumPic(jsPsych.timelineVariable("numSet", true))}</div>
+                <div class="silder">
+                    <div id="background"></div>
+                    <div id="backgroundChoose"></div>
+                    <div id="start"></div>
+                    <div id="end"></div>
+                    <div id="move" distance="0"></div>
+                    <div class="label">
+                        <div id="startpoint"></div>
+                        <div id="endpoint"></div>
+                    </div>
+                </div>`;
+            },
+            choices: ["继续"],
+            on_load: function() { 
+                $("#startpoint").html(showNumPic(0));
+                $("#endpoint").html(showNumPic(jsPsych.timelineVariable("size", true)));
+                $("#move").attr(
+                    "distance",
+                    (jsPsych.timelineVariable("numSet", true) / jsPsych.timelineVariable("size", true)) * maxSection
+                );
+        
+                res1();
+                $(window).resize(function () { res1(); });
+            }
+        }],
+        conditional_function: function() { 
+            if(jsPsych.timelineVariable("boundary", true)) { 
+                return true;
+            } else { 
+                return false;
+            }
+        }
+    }, {
+        timeline: [{
+            type: "html-button-response",
+            stimulus: function() { 
+                return `
+                <style>${trialCss()}</style>
+                <div class="tit">${showNumPic(jsPsych.timelineVariable("numSet", true))}</div>
+                <div class="silder">
+                    <div id="background"></div>
+                    <div id="backgroundChoose"></div>
+                    <div id="start"></div>
+                    <div id="end"></div>
+                    <div id="move" distance="0"></div>
+                    <div class="label">
+                        <div id="startpoint"></div>
+                        <div id="endpoint"></div>
+                    </div>
+                </div>`;
+            },
+            choices: ["继续"],
+            on_load: function() { 
+                $("#startpoint").html(showNumPic(0));
+                $("#endpoint").html(showNumPic(jsPsych.timelineVariable("size", true)));
+                $("#move").attr("distance", jsPsych.timelineVariable("numSet", true) / jsPsych.timelineVariable("size", true));
+
+        
+                res2();
+                $(window).resize(function () { res2(); });
+            }
+        }],
+        conditional_function: function() { 
+            if(jsPsych.timelineVariable("boundary", true)) { 
+                return false;
+            } else { 
+                return true;
+            }
+        }
+    }],
+    conditional_function: function() { 
+        if(jsPsych.timelineVariable("feedback", true)) { 
+            return true;
+        } else { 
+            return false;
+        }
+    }
+}
+
 let tot = {
     timeline: [{
         type: "html-keyboard-response",
@@ -450,5 +555,5 @@ let tot = {
                 return false;
             }
         }
-    }, feedback]
+    }, feedback_all]
 }
