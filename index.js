@@ -1,5 +1,4 @@
-// ?boundary=false&type=pn&size=100&numSet=[5,7,10,13,15,19,25,30,35,40,43,45,50,55,61,65,70,75,80,83,85,88,90,95,97]&feedback=true&repection=3
-// ?boundary=true&type=pn&size=10&numSet=[5,7]&feedback=false&repection=3&length=100
+// ?boundary=false&size=1&numSet=[5,7]&feedback=true&repection=3&length=10
 
 // 初始化检测
 let c = Object.keys((function() {
@@ -15,13 +14,13 @@ let c = Object.keys((function() {
     }
     return b;
 })());
-if(c.length < 6) $("body").html("参数错误，请询问实验人员");
+if(c.length < 2) $("body").html("参数错误，请询问实验人员");
 
 document.title = "mental number line";
 
 let info = {};
 let timeline = [];
-let subjectID = "Mu02", version = "v2";
+let subjectID = "Mu03", version = "v1";
 
 let pracNum = 2, pracAcc = 0.8;
 
@@ -36,16 +35,13 @@ let conf = {
     numSet: JSON.parse(jsPsych.data.getURLVariable("numSet")),
     size: [JSON.parse(jsPsych.data.getURLVariable("size"))],
     boundary: [JSON.parse(jsPsych.data.getURLVariable("boundary"))],
-    type: jsPsych.data.getURLVariable("type")
+    type: "n"
 };
 
 let sti = [];
 sti.push(
     jsPsych.randomization.factorial(
         Object.assign({}, conf, { type: [conf["type"].slice(0, 1)]}
-    )),
-    jsPsych.randomization.factorial(
-        Object.assign({}, conf, { type: [conf["type"].slice(1, 2)]}
     ))
 );
 
@@ -62,6 +58,27 @@ timeline.push({
                    Mupsy在线实验室<br/>2021年</p>",
     button_label: "我同意",
 }, info_get(subjectID));
+
+timeline.push({
+    type: "preload",
+    images: [
+        "/lab/mnl2/img/false-100-10.png","/lab/mnl2/img/false-100-45.png","/lab/mnl2/img/false-100-83.png","/lab/mnl2/img/false-10-6.png",
+        "/lab/mnl2/img/true-100-30.png","/lab/mnl2/img/true-100-65.png","/lab/mnl2/img/true-100-95.png","/lab/mnl2/img/true-10-8.png","/lab/mnl2/img/false-100-13.png",
+        "/lab/mnl2/img/false-100-50.png","/lab/mnl2/img/false-100-85.png","/lab/mnl2/img/false-10-7.png","/lab/mnl2/img/true-100-35.png","/lab/mnl2/img/true-100-70.png",
+        "/lab/mnl2/img/true-100-97.png","/lab/mnl2/img/true-10-9.png","/lab/mnl2/img/false-100-15.png","/lab/mnl2/img/false-100-55.png","/lab/mnl2/img/false-100-88.png",
+        "/lab/mnl2/img/false-10-8.png","/lab/mnl2/img/true-100-40.png","/lab/mnl2/img/true-100-75.png","/lab/mnl2/img/true-10-1.png","/lab/mnl2/img/false-100-19.png",
+        "/lab/mnl2/img/false-100-61.png","/lab/mnl2/img/false-100-90.png","/lab/mnl2/img/false-10-9.png","/lab/mnl2/img/true-100-43.png","/lab/mnl2/img/true-100-7.png",
+        "/lab/mnl2/img/true-10-2.png","/lab/mnl2/img/false-100-25.png","/lab/mnl2/img/false-100-65.png","/lab/mnl2/img/false-100-95.png","/lab/mnl2/img/true-100-10.png",
+        "/lab/mnl2/img/true-100-45.png","/lab/mnl2/img/true-100-80.png","/lab/mnl2/img/true-10-3.png","/lab/mnl2/img/false-100-30.png","/lab/mnl2/img/false-100-70.png",
+        "/lab/mnl2/img/false-10-2.png","/lab/mnl2/img/true-100-13.png","/lab/mnl2/img/true-100-50.png","/lab/mnl2/img/true-100-83.png","/lab/mnl2/img/true-10-4.png",
+        "/lab/mnl2/img/false-100-35.png","/lab/mnl2/img/false-100-75.png","/lab/mnl2/img/false-10-3.png","/lab/mnl2/img/true-100-15.png","/lab/mnl2/img/true-100-55.png",
+        "/lab/mnl2/img/true-100-85.png","/lab/mnl2/img/true-10-5.png","/lab/mnl2/img/false-100-40.png","/lab/mnl2/img/false-100-7.png","/lab/mnl2/img/false-10-4.png",
+        "/lab/mnl2/img/true-100-19.png","/lab/mnl2/img/true-100-5.png","/lab/mnl2/img/true-100-88.png","/lab/mnl2/img/true-10-6.png","/lab/mnl2/img/false-100-43.png",
+        "/lab/mnl2/img/false-100-80.png","/lab/mnl2/img/false-10-5.png","/lab/mnl2/img/true-100-25.png","/lab/mnl2/img/true-100-61.png","/lab/mnl2/img/true-100-90.png",
+        "/lab/mnl2/img/true-10-7.png"
+    ]
+})
+
 
 load.js([
     "trial.js",

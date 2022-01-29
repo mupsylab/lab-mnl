@@ -57,6 +57,14 @@ function res2() {
         left: $("#start").position().left + ($("#end").position().left - $("#start").position().left) / 2 - $("#endpoint").width() / 2
     });
 
+    let a = $(document).width() / 2 - 100,
+        b = $(document).height() / 2 - 100;
+    let scale = Math.min(1, a / 350, b / 270);
+    $(".tit #img").css({
+        width: `${360 * scale}px`,
+        height: `${270 * scale}px`
+    });
+
     $(".tit").css({
         left: $("#start").position().left,
         top: $("#start").position().top - $("#start").height() - $(".tit").height()
