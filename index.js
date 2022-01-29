@@ -21,7 +21,7 @@ document.title = "mental number line";
 
 let info = {};
 let timeline = [];
-let subjectID = "Mu02", version = "v2";
+let subjectID = "Mu03", version = "v2";
 
 let pracNum = 2, pracAcc = 0.8;
 
@@ -61,7 +61,48 @@ timeline.push({
                    <p style='font: 24px 华文中宋; color: grey'>\
                    Mupsy在线实验室<br/>2021年</p>",
     button_label: "我同意",
-}, info_get(subjectID));
+}, {
+    timeline: [{
+        // 实验编号填写
+        type: "survey-html-form",
+        preamble: "<p style =' color : white'>你分配到的实验编号是</p>",
+        html: "<p><input name='Q0' type='text' value='" + subjectID + "' disabled='disabled' /></p> \
+        <p><input name='Q1' type='number' value='' min='1' required/></p>\
+        <p id='numberf' style='font-size: 20px; color: white;'>你的最终编号是：</p>",
+        button_label: "继续",
+        on_load: function () {
+            $("input[type=number]").on("input", function (e) {
+                $("#numberf").html("你的最终编号是：" + $("input[name=Q0]").val() + e.currentTarget.value.toString().padStart(4, "0"));
+                info["subj_idx"] = $("input[name=Q0]").val() + $("input[name=Q1]").val().toString().padStart(4, "0");
+            });
+        },
+        on_finish: function () {
+            if (localStorage.getItem(info["subj_idx"])) {
+                info = JSON.parse(localStorage.getItem(info["subj_idx"]));
+            }
+        }
+    }, {
+        type: 'html-button-response',
+        stimulus: "<p style = 'color : white'>你的性别</p>",
+        choices: ['男', '女', '其他'],
+        on_finish: function (data) {
+            info["Sex"] = data.response == 0 ? "Male" : (data.response == 1 ? "Female" : "Other")
+        }
+    }, {
+        type: 'survey-html-form',
+        preamble: "<p style = 'color : white'>你的出生年</p>",
+        html: function () {
+            let data = localStorage.getItem(info["subj_idx"]) ? JSON.parse(localStorage.getItem(info["subj_idx"]))["BirthYear"] : "";
+            return `<p>
+    <input name="Q0" type="number" value=${data} placeholder="1900~2020" min=1900 max=2020 oninput="if(value.length>4) value=value.slice(0,4)" required />
+    </p>`
+        },
+        button_label: '继续',
+        on_finish: function (data) {
+            info["BirthYear"] = data.response.Q0;
+        }
+    }]
+});
 
 load.js([
     "trial.js",
